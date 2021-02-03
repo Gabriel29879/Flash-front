@@ -19,8 +19,8 @@ const CREATE_EMPRESA = gql`
 `;
 
 const CREATE_FUNCIONARIO = gql`
-    mutation criarFuncionario($empresa: ID!, $nome: String!, $sobrenome: String!, $CPF: String!, $email: String!){
-        criarFuncionario(empresa: $empresa, nome: $nome, sobrenome: $sobrenome, CPF: $CPF, email: $email) {
+    mutation CriarFuncionario($funcionario: FuncionarioInput!){
+        criarFuncionario(funcionario: $funcionario) {
             nome
         }
     }

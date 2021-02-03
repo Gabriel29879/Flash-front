@@ -12,16 +12,18 @@ const FormFuncionario = ({ listaEmpresa }) => {
     const [sobrenome, setSobrenome] = useState();
     const [CPF, setCPF] = useState();
     const [email, setEmail] = useState();
-    const [createFuncionario, { data }] = useMutation(CREATE_FUNCIONARIO);
+    const [criarFuncionario, { data }] = useMutation(CREATE_FUNCIONARIO);
 
     const cadastrarEmpresa = () => {
-        createFuncionario({ variables: { 
-            empresa: `${empresa}`, 
-            nome: `${nome}`, 
-            sobrenome: `${sobrenome}`,
-            CPF: `${CPF}`,
-            email: `${email}`
-        } })
+        console.log(empresa, nome, sobrenome, CPF, email);
+        const funcionario = {
+            empresa: empresa, 
+            nome: nome, 
+            sobrenome: sobrenome,
+            CPF: CPF,
+            email: email
+        };
+        criarFuncionario({ variables: { funcionario: funcionario } })
     }
 
     return (
@@ -30,7 +32,7 @@ const FormFuncionario = ({ listaEmpresa }) => {
             <Select 
                 placeholder="Selecione uma empresa"
                 style={{ width: 500 }} 
-                onChange={(e) => setEmpresa(e.target.value)}>
+                onChange={(e) => setEmpresa(e)}>
                 {
                     listaEmpresa ? listaEmpresa.map(item => <Option value={item.id} key={item.id}>{item.nome}</Option>) : ""
                 }
