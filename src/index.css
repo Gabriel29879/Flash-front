@@ -62,3 +62,9 @@ code {
 p {
   font-size: 15px;
 }
+
+/* Table */
+
+.table {
+  text-align: left;
+}
