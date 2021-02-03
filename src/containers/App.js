@@ -1,13 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState  } from 'react';
 import { useQuery, useLazyQuery } from '@apollo/client';
 
-import { GET_EMPRESAS, GET_FUNCIONARIOS } from '../queries/queries';
+import { GET_EMPRESAS, GET_FUNCIONARIOS } from '../schemas/queries';
 
 import Button from '../components/Button'
+
+import FormFuncionario from '../components/FormFuncionario';
 
 import 'antd/dist/antd.css';
 import { Table,Select } from 'antd';
 const { Option } = Select;
+
+
 
 const columns = [
     {
@@ -30,11 +34,34 @@ const columns = [
 const App = () => {
     const [conpany, setConpany] = useState();
     const [idState, setIdState] = useState();
-    const { loading: empresaLoading, error, data: empresaData } = useQuery(GET_EMPRESAS);
+    const [showFormFuncionario, setFormFuncionario] = useState(false);
+    const [showFormEmpresa, setFormEmpresa] = useState(false);
+    const { loading: empresaLoading, error: empresaError, data: empresaData } = useQuery(GET_EMPRESAS);
     const [getFuncionarios, { data: listaFuncionarios }] = useLazyQuery(GET_FUNCIONARIOS, { variables: { id: `${idState}` } });
 
     let companyArr;
     let funcionarios;
+
+    const showForm = (formType) => {
+        switch(formType){
+            case 'empresa':
+                if(showFormEmpresa) {
+                    setFormEmpresa(false);
+                    return
+                };
+                setFormFuncionario(false);
+                setFormEmpresa(true);
+                return
+            case 'funcionario':
+                if(showFormFuncionario) {
+                    setFormFuncionario(false);
+                    return
+                };
+                setFormEmpresa(false);
+                setFormFuncionario(true);
+                return
+        }
+    }
 
     if(!empresaLoading) {
         companyArr = empresaData.getEmpresas;
@@ -75,9 +102,15 @@ const App = () => {
         <div className="card">
             <p>Caso tenha interesse, você pode cadastrar sua empresa em nosso sistema ou incluir um novo funcionário em alguma das empresas já existentes.</p>
             <div className="upper-card-btns">
-                <Button text="ADICIONAR EMPRESA" />
-                <Button text="ADICIONAR FUNCIONARIO" />
+                <Button text="ADICIONAR EMPRESA" onClick={() => showForm("empresa")} />
+                <Button text="ADICIONAR FUNCIONARIO" onClick={() => showForm("funcionario")} />
             </div>
+        </div>
+        <div className={`card${showFormFuncionario ? "" : "-hidden"}`}>
+            <FormFuncionario listaEmpresa={companyArr} />
+        </div>
+        <div className={`card${showFormEmpresa ? "" : "-hidden"} dual-form`}>
+
         </div>
         <div className="card middle-card">
             <h2>Selecione uma empresa no campo abaixo para ver sua lista de funcionários.</h2>

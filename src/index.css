@@ -30,8 +30,16 @@ code {
   margin: 25px auto 0 auto;
 }
 
+.card-hidden {
+  display: none;
+}
+
 .middle-card {
   text-align: left !important;
+}
+
+.dual-form {
+  text-align: unset !important;
 }
 
 /* Buttons */
