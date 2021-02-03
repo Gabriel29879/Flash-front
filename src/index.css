@@ -20,18 +20,14 @@ code {
   font-size: 35px;
 }
 
-/* Container */
-.container {
-  padding: 0 750px;
-}
-
 /* Card configuration */
 .card {
   box-shadow: 0px 0px 50px rgba(163, 163, 163, 0.25);
   border-radius: 10px;
   padding: 30px;
   text-align: center;
-  margin-top: 25px;
+  max-width: 820px;
+  margin: 25px auto 0 auto;
 }
 
 .middle-card {
@@ -61,6 +57,10 @@ code {
 /* Texto */
 p {
   font-size: 15px;
+}
+
+.middle-card h2 {
+  margin-bottom: 25px;
 }
 
 /* Table */
