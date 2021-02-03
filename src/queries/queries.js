@@ -19,15 +19,14 @@ const GET_EMPRESAS = gql`
 `;
 
 const GET_FUNCIONARIOS = gql`
-  {
-    getFuncionarios(id: "6018ac84bc8f1849a86d91af") {
-      nome
-      sobrenome
-      CPF
-      email
+    query getFuncionarios($id: ID!){
+        getFuncionarios(id: $id) {
+        nome
+        sobrenome
+        CPF
+        email
+        }
     }
-  }
-  
 `;
 
 export { GET_EMPRESAS, GET_FUNCIONARIOS };

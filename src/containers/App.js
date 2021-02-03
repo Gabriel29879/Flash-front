@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useQuery } from '@apollo/client';
+import { useQuery, useLazyQuery } from '@apollo/client';
 
 import { GET_EMPRESAS, GET_FUNCIONARIOS } from '../queries/queries';
 
@@ -9,19 +9,11 @@ import 'antd/dist/antd.css';
 import { Table,Select } from 'antd';
 const { Option } = Select;
 
-const funcionarios = [
-    { name: "Lucas Martir", CPF: "222.333.444-87", email: "teste@teste.com" },
-    { name: "Lucas Martir", CPF: "222.333.444-87", email: "teste@teste.com" },
-    { name: "Lucas Martir", CPF: "222.333.444-87", email: "teste@teste.com" },
-    { name: "Lucas Martir", CPF: "222.333.444-87", email: "teste@teste.com" },
-    { name: "Lucas Martir", CPF: "222.333.444-87", email: "teste@teste.com" },
-]
-
 const columns = [
     {
-        title: 'Name',
-        dataIndex: 'name',
-        key: 'name'
+        title: 'Nome',
+        dataIndex: 'nome',
+        key: 'nome'
     },
     {
         title: 'CPF',
@@ -37,19 +29,24 @@ const columns = [
 
 const App = () => {
     const [conpany, setConpany] = useState();
-    const { loading, error, data } = useQuery(GET_EMPRESAS);
+    const [idState, setIdState] = useState();
+    const { loading: empresaLoading, error, data: empresaData } = useQuery(GET_EMPRESAS);
+    const [getFuncionarios, { data: listaFuncionarios }] = useLazyQuery(GET_FUNCIONARIOS, { variables: { id: `${idState}` } });
 
     let companyArr;
+    let funcionarios;
 
-    if(!loading) {
-        companyArr = data.getEmpresas;
-        console.log(companyArr);
+    if(!empresaLoading) {
+        companyArr = empresaData.getEmpresas;
     }
+
+    if(listaFuncionarios) funcionarios = listaFuncionarios.getFuncionarios;
 
     const selectChange = (value) => {
         const result = companyArr.filter(item => { if(item.id === value){ return item } else { return null } });
         setConpany(result);
-        console.log(conpany);
+        setIdState(result[0].id);
+        getFuncionarios(idState);
     }
 
     const renderTableHeader = (conpany) => {
