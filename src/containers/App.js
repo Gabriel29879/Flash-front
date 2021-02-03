@@ -6,8 +6,19 @@ import 'antd/dist/antd.css';
 import { Select } from 'antd';
 const { Option } = Select;
 
+const companyArr = [
+    {name: "NuBank"},
+    {name: "Google"},
+    {name: "Razer"},
+    {name: "Intel"}
+];
+
 const App = () => {
     const [conpany, setConpany] = useState();
+
+    const selectChange = (value) => {
+        setConpany(value);
+    }
 
     return (
         <>
@@ -22,8 +33,13 @@ const App = () => {
             </div>
             <div className="card middle-card">
                 <h2>Selecione uma empresa no campo abaixo para ver sua lista de funcionários.</h2>
-                <Select placeholder={conpany ? "Selecione uma empresa" : "Voce deve criar pelo menos uma empresa"} style={{ width: 500 }}>
-                <Option value="Nu">Nu Bank</Option>
+                <Select 
+                    placeholder={conpany ? "Selecione uma empresa" : "Voce deve criar pelo menos uma empresa"} 
+                    style={{ width: 500 }} 
+                    onChange={selectChange}>
+                    {
+                        companyArr.map(item => <Option value={item.name} key={item.name}>{item.name}</Option>)
+                    }
                 </Select>
             </div>
         </div>
