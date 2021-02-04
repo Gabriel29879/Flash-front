@@ -21,6 +21,7 @@ const GET_EMPRESAS = gql`
 const GET_FUNCIONARIOS = gql`
     query getFuncionarios($id: ID!){
         getFuncionarios(id: $id) {
+        id
         nome
         sobrenome
         CPF

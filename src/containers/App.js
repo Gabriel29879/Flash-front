@@ -79,7 +79,12 @@ const App = () => {
     }
 
     //Populando o array com dados de funcionarios assim que acaba de carregar
-    if(listaFuncionarios) funcionarios = listaFuncionarios.getFuncionarios;
+    if(listaFuncionarios) {
+
+        funcionarios = listaFuncionarios.getFuncionarios.map(item => {
+            return Object.assign({ key: item.id }, { nome: item.nome + ' ' + item.sobrenome, CPF: item.CPF, email: item.email });
+        });
+    } 
 
     //Função para trocar a empresa que é exibida na Table
     const selectChange = (value) => {
@@ -121,7 +126,6 @@ const App = () => {
         let index = companyArr.length - 1;
         selectChange(companyArr[index].id)
         setNewEmpresa(false);
-        console.log('rodei')
     }
 
     return (
