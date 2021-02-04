@@ -2,21 +2,22 @@ import { useMutation } from '@apollo/client';
 import React, { useState } from 'react';
 
 import { CREATE_EMPRESA } from '../schemas/mutations';
+import { GET_EMPRESAS } from '../schemas/queries'
 
 import { Checkbox } from 'antd';
 
 const FormEmpresa = ({ showForm, selectChange }) => {
-    const [nome, setNome] = useState();
-    const [nomeFantasia, setNomeFantasia] = useState();
-    const [cnpj, setCnpj] = useState();
-    const [cidade, setCidade] = useState();
-    const [estado, setEstado] = useState();
-    const [rua, setRua] = useState();
-    const [numero, setNumero] = useState();
-    const [CEP, setCEP] = useState();
+    const [nome, setNome] = useState('');
+    const [nomeFantasia, setNomeFantasia] = useState('');
+    const [cnpj, setCnpj] = useState('');
+    const [cidade, setCidade] = useState('');
+    const [estado, setEstado] = useState('');
+    const [rua, setRua] = useState('');
+    const [numero, setNumero] = useState('');
+    const [CEP, setCEP] = useState('');
     const [valeAlimentacao, setValeAlimentacao] = useState(false);
     const [valeTransporte, setValeTransporte] = useState(false);
-    const [criarEmpresa, { data }] = useMutation(CREATE_EMPRESA);
+    const [criarEmpresa, { data }] = useMutation(CREATE_EMPRESA, {refetchQueries: [{ query: GET_EMPRESAS }]});
 
     const cadastrarEmpresa = () => {
         const beneficios = [];

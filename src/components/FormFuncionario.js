@@ -7,11 +7,11 @@ import { Select } from 'antd';
 const { Option } = Select;
 
 const FormFuncionario = ({ listaEmpresa, showForm }) => {
-    const [empresa, setEmpresa] = useState();
-    const [nome, setNome] = useState();
-    const [sobrenome, setSobrenome] = useState();
-    const [CPF, setCPF] = useState();
-    const [email, setEmail] = useState();
+    const [empresa, setEmpresa] = useState('');
+    const [nome, setNome] = useState('');
+    const [sobrenome, setSobrenome] = useState('');
+    const [CPF, setCPF] = useState('');
+    const [email, setEmail] = useState('');
     const [criarFuncionario, { data }] = useMutation(CREATE_FUNCIONARIO);
 
     const cadastrarFuncionario = () => {
