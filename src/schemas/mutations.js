@@ -1,19 +1,9 @@
 import { gql } from '@apollo/client';
 
 const CREATE_EMPRESA = gql`
-    {
-        getEmpresas {
-        id
-        nome
-        cnpj
-        endereco {
-            cidade
-            estado
-            rua
-            numero
-            CEP
-        }
-        beneficios
+    mutation CriarEmpresa($empresa: EmpresaInput!){
+        criarEmpresa(empresa: $empresa){
+            id
         }
     }
 `;

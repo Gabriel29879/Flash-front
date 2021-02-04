@@ -6,6 +6,7 @@ import { GET_EMPRESAS, GET_FUNCIONARIOS } from '../schemas/queries';
 import Button from '../components/Button'
 
 import FormFuncionario from '../components/FormFuncionario';
+import FormEmpresa from '../components/FormEmpresa';
 
 import 'antd/dist/antd.css';
 import { Table,Select } from 'antd';
@@ -60,6 +61,10 @@ const App = () => {
                 setFormEmpresa(false);
                 setFormFuncionario(true);
                 return
+            default:
+                setFormEmpresa(false);
+                setFormFuncionario(false);
+                return
         }
     }
 
@@ -98,7 +103,7 @@ const App = () => {
 
     return (
         <>
-        <div className="main-header">Flash</div>
+        <div className="main-header"><img src={process.env.PUBLIC_URL + '/flash.png'} alt='flash logo' /></div>
         <div className="card">
             <p>Caso tenha interesse, você pode cadastrar sua empresa em nosso sistema ou incluir um novo funcionário em alguma das empresas já existentes.</p>
             <div className="upper-card-btns">
@@ -107,10 +112,10 @@ const App = () => {
             </div>
         </div>
         <div className={`card${showFormFuncionario ? "" : "-hidden"}`}>
-            <FormFuncionario listaEmpresa={companyArr} />
+            <FormFuncionario showForm={showForm} listaEmpresa={companyArr} />
         </div>
         <div className={`card${showFormEmpresa ? "" : "-hidden"} dual-form`}>
-
+            <FormEmpresa showForm={showForm} selectChange={selectChange} />
         </div>
         <div className="card middle-card">
             <h2>Selecione uma empresa no campo abaixo para ver sua lista de funcionários.</h2>

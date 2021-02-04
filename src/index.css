@@ -15,9 +15,12 @@ code {
 .main-header {
   max-width: 100%;
   background: linear-gradient(236.04deg, #fe308b 0%, #ff6c61 101.29%);
-  padding: 20px 30%;
-  color: white;
-  font-size: 35px;
+  padding: 10px 30%;
+}
+
+.main-header img {
+  height: 32px;
+  width: auto;
 }
 
 /* Card configuration */
@@ -60,6 +63,7 @@ code {
   border-radius: 20px;
   color: white;
   cursor: pointer;
+  font-weight: bold;
 }
 
 /* Texto */
@@ -75,4 +79,107 @@ p {
 
 .table {
   text-align: left;
+}
+
+/* Form */
+
+form {
+  text-align: left;
+}
+
+.form-container input {
+  border: 1px solid #cbd6e2;
+  background-color: #f5f8fa;
+  border-radius: 15px;
+  padding: 6px 15px;
+}
+
+.form-container input:focus {
+  border-radius: 15px;
+  outline: none;
+  background-color: #e5f3fd;
+}
+
+.input-cont {
+  display: flex;
+  padding: 0 10px;
+  max-width: 100%;
+  width: 100%;
+}
+
+.input-label p {
+  font-weight: bold;
+  font-size: 13px;
+  margin-bottom: 2px;
+  margin-top: 15px;
+  text-align: left;
+  margin-left: 8px;
+}
+
+.input-label p::after {
+  content: "*";
+  color: red;
+}
+
+.input-100,
+.input-100 input {
+  max-width: 100%;
+  width: 100%;
+}
+
+.input-50 {
+  max-width: 50%;
+  width: 50%;
+}
+
+.input-CEP {
+  max-width: 30%;
+  width: 30%;
+}
+
+.form-sub-title p {
+  font-weight: bold;
+  margin-bottom: 0;
+  margin-top: 20px;
+}
+
+.white-space {
+  min-width: 20px;
+}
+
+.input-numero {
+  max-width: 100px;
+}
+
+.form-button {
+  text-align: center;
+  margin-top: 20px;
+  background: linear-gradient(180deg, #fe2e8d 0%, #ff6b61 100%);
+  padding: 8px 35px;
+  border-radius: 20px;
+  color: white;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  display: inline-block;
+}
+
+.cancel-form.form-button {
+  background: #f7f7f7;
+  color: #9f9f9f;
+  border: 1px solid #ebebeb;
+  border-radius: 20px;
+  margin-right: 15px;
+}
+
+.form-select {
+  text-align: left;
+  margin-top: 25px;
+  margin-left: 10px;
+}
+
+.form-button-container {
+  display: inline-block !important;
+  text-align: right !important;
+  width: 100%;
 }
