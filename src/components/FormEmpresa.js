@@ -6,7 +6,7 @@ import { GET_EMPRESAS } from '../schemas/queries'
 
 import { Checkbox } from 'antd';
 
-const FormEmpresa = ({ showForm, selectChange }) => {
+const FormEmpresa = ({ showForm, setNewEmpresa }) => {
     const [nome, setNome] = useState('');
     const [nomeFantasia, setNomeFantasia] = useState('');
     const [cnpj, setCnpj] = useState('');
@@ -17,8 +17,10 @@ const FormEmpresa = ({ showForm, selectChange }) => {
     const [CEP, setCEP] = useState('');
     const [valeAlimentacao, setValeAlimentacao] = useState(false);
     const [valeTransporte, setValeTransporte] = useState(false);
+    //Mutação para criar uma empresa, assim que criada ela realiza novamente o query get_empresas para atualizar as informações do client
     const [criarEmpresa, { data }] = useMutation(CREATE_EMPRESA, {refetchQueries: [{ query: GET_EMPRESAS }]});
 
+    //Se todos os campos estiverem preenchidos a função cria a empresa no banco de dados e no final limpa os campos e fecha o form
     const cadastrarEmpresa = () => {
         const beneficios = [];
 
@@ -47,10 +49,11 @@ const FormEmpresa = ({ showForm, selectChange }) => {
         } 
 
         criarEmpresa({ variables: { empresa } });
-        showForm('empresa');
-        console.log(data);
+        cancelarForm();
+        setNewEmpresa(true);
     }
 
+    //controle de estado para as opções de beneficios
     const valeChange = (tipoVale) => {
         switch(tipoVale){
             case 'VA':
@@ -64,6 +67,7 @@ const FormEmpresa = ({ showForm, selectChange }) => {
         }
     }
 
+    //Limpa todos os campos do form e fecha ele
     const cancelarForm = () => {
         setNome('');
         setNomeFantasia('');

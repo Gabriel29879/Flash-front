@@ -13,7 +13,7 @@ import { Table,Select } from 'antd';
 const { Option } = Select;
 
 
-
+//configuração para o component do ant Table
 const columns = [
     {
         title: 'Nome',
@@ -35,14 +35,20 @@ const columns = [
 const App = () => {
     const [conpany, setConpany] = useState();
     const [idState, setIdState] = useState();
+    //quando uma nova empresa é criada newEmpresa 
+    //fica com o valor true e permite que a aplicação pegue a nova empresa e exiba ela na tabela
+    const [newEmpresa, setNewEmpresa] = useState(false);
     const [showFormFuncionario, setFormFuncionario] = useState(false);
     const [showFormEmpresa, setFormEmpresa] = useState(false);
     const { loading: empresaLoading, error: empresaError, data: empresaData } = useQuery(GET_EMPRESAS);
     const [getFuncionarios, { data: listaFuncionarios }] = useLazyQuery(GET_FUNCIONARIOS, { variables: { id: `${idState}` } });
 
+    //Array usado para armazenar e formatar os dados de empresas
     let companyArr;
+    //Array usado para armazenar e formatar os dados de funcionarios
     let funcionarios;
-
+    
+    //Função para mostrar ou esconder os dois forms de cadastro pelos botões do card superior
     const showForm = (formType) => {
         switch(formType){
             case 'empresa':
@@ -67,13 +73,15 @@ const App = () => {
                 return
         }
     }
-
+    //Populando o array com os dados de empresas assim que acaba de carregar
     if(!empresaLoading) {
         companyArr = empresaData.getEmpresas;
     }
 
+    //Populando o array com dados de funcionarios assim que acaba de carregar
     if(listaFuncionarios) funcionarios = listaFuncionarios.getFuncionarios;
 
+    //Função para trocar a empresa que é exibida na Table
     const selectChange = (value) => {
         const result = companyArr.filter(item => { if(item.id === value){ return item } else { return null } });
         setConpany(result);
@@ -81,6 +89,7 @@ const App = () => {
         getFuncionarios(idState);
     }
 
+    //Mostra algumas informações sobre a empresa acima da Table
     const renderTableHeader = (conpany) => {
         if(conpany) {
             return (
@@ -100,6 +109,20 @@ const App = () => {
             );
         }
     }
+    
+    //Inicializa a aplicação com uma empresa já selecionada para exibição na tambela
+    if(companyArr && !idState) {
+        let index = companyArr.length - 1;
+        selectChange(companyArr[index].id)
+    } 
+
+    //Exibe uma empresa recem criada imediatamente após sua criação
+    if(companyArr && newEmpresa) {
+        let index = companyArr.length - 1;
+        selectChange(companyArr[index].id)
+        setNewEmpresa(false);
+        console.log('rodei')
+    }
 
     return (
         <>
@@ -107,6 +130,7 @@ const App = () => {
         <div className="card">
             <p>Caso tenha interesse, você pode cadastrar sua empresa em nosso sistema ou incluir um novo funcionário em alguma das empresas já existentes.</p>
             <div className="upper-card-btns">
+                {/*Botões utilizados para exibir os forms de cadastro*/}
                 <Button text="ADICIONAR EMPRESA" onClick={() => showForm("empresa")} />
                 <Button text="ADICIONAR FUNCIONARIO" onClick={() => showForm("funcionario")} />
             </div>
@@ -115,10 +139,11 @@ const App = () => {
             <FormFuncionario showForm={showForm} listaEmpresa={companyArr} />
         </div>
         <div className={`card${showFormEmpresa ? "" : "-hidden"} dual-form`}>
-            <FormEmpresa showForm={showForm} selectChange={selectChange} />
+            <FormEmpresa showForm={showForm} setNewEmpresa={setNewEmpresa} />
         </div>
         <div className="card middle-card">
             <h2>Selecione uma empresa no campo abaixo para ver sua lista de funcionários.</h2>
+            {/* Exibe as empresas cadastradas e permite que selecione uma para exibição na Tabela */}
             <Select 
                 placeholder="Selecione uma empresa"
                 style={{ width: 500 }} 
@@ -129,6 +154,7 @@ const App = () => {
             </Select>
         </div>
         <div className="card table">
+                {/* Exibe os dados da empresa acima da tabela caso existam */}
                 {conpany ? renderTableHeader(conpany[0]) : ""}
                 <Table columns={columns} dataSource={funcionarios} />
         </div>
